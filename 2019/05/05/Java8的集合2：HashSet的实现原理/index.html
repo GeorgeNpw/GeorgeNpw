@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="HashSet," />
 
 
 
@@ -88,16 +88,18 @@
 
 
 
-<meta name="description" content="只有经历过地狱的磨砺,才能练就创造天堂的力量;只有流过血的手指,才能弹出世间的绝响。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="GeorgeN的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="HashSet是Set接口的典型实现，HashSet按照Hash算法来存储集合中的元素，底层通过HashMap实现。">
+<meta name="keywords" content="HashSet">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java8的集合2：HashSet的实现原理">
+<meta property="og:url" content="http://yoursite.com/2019/05/05/Java8的集合2：HashSet的实现原理/index.html">
 <meta property="og:site_name" content="GeorgeN的博客">
-<meta property="og:description" content="只有经历过地狱的磨砺,才能练就创造天堂的力量;只有流过血的手指,才能弹出世间的绝响。">
+<meta property="og:description" content="HashSet是Set接口的典型实现，HashSet按照Hash算法来存储集合中的元素，底层通过HashMap实现。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-05T12:50:29.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="GeorgeN的博客">
-<meta name="twitter:description" content="只有经历过地狱的磨砺,才能练就创造天堂的力量;只有流过血的手指,才能弹出世间的绝响。">
+<meta name="twitter:title" content="Java8的集合2：HashSet的实现原理">
+<meta name="twitter:description" content="HashSet是Set接口的典型实现，HashSet按照Hash算法来存储集合中的元素，底层通过HashMap实现。">
 
 
 
@@ -127,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/05/Java8的集合2：HashSet的实现原理/"/>
 
 
 
 
 
-  <title>GeorgeN的博客</title>
+  <title>Java8的集合2：HashSet的实现原理 | GeorgeN的博客</title>
   
 
 
@@ -152,8 +154,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
     <a href="https://github.com/GeorgeNpw" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
 
@@ -281,327 +282,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/Github-Hexo搭建个人博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="npw">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/touxiang.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GeorgeN的博客">
-    </span>
-
-    
-      <header class="post-header">
-      
-      
-        <i class="fa fa-thumb-tack"></i>
-        <font color=7D26CD>置顶</font>
-      
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/25/Github-Hexo搭建个人博客/" itemprop="url">Github+Hexo搭建个人博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-25T22:45:23+08:00">
-                2019-04-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-          
-          
-            <div class="post-gallery-row">
-              <a class="post-gallery-img fancybox"
-                 href="http://ww1.sinaimg.cn/large/006pqaYvgy1g2dzal6b85j31hc0u0b2b.jpg" rel="gallery_cjvaxvuk30002bcw1x2dz3ywy"
-                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2dzal6b85j31hc0u0b2b.jpg" itemprop="contentUrl"/>
-              </a>
-            
-          
-
-          
-          </div>
-        </div>
-      
-
-      
-        
-          如果你也想要跟我一样自己撘一个个人博客系统，但又不知道怎么做，那么恭喜你！看完这篇文章，你也可以像我一样搭建一个属于自己的博客了！Come on！
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/25/Github-Hexo搭建个人博客/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/Java8的集合3：HashMap的实现原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="npw">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/touxiang.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GeorgeN的博客">
-    </span>
-
-    
-      <header class="post-header">
-      
-      
-        <i class="fa fa-thumb-tack"></i>
-        <font color=7D26CD>置顶</font>
-      
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/05/Java8的集合3：HashMap的实现原理/" itemprop="url">Java8的集合3：HashMap的实现原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T20:47:29+08:00">
-                2019-05-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA集合/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA集合</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          HashMap是基于Map接口的实现的，它允许null值和null键，它不是线程同步的，同时也不保证有序。HashMap在进行扩容时，每次扩容都是翻倍。HashMap通过红黑树的方式来处理哈希冲突，可以把效率改进至O（logn）。相比链式结构的节点，树型结构的节点会占用比较多的空间，所以这是一种以空间换时间的改进方式。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/Java8的集合3：HashMap的实现原理/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -636,9 +319,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/05/Java8的集合2：HashSet的实现原理/" itemprop="url">Java8的集合2：HashSet的实现原理</a></h1>
+          <h1 class="post-title" itemprop="name headline">Java8的集合2：HashSet的实现原理</h1>
         
 
         <div class="post-meta">
@@ -692,160 +373,18 @@
           
 
           
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          HashSet是Set接口的典型实现，HashSet按照Hash算法来存储集合中的元素，底层通过HashMap实现。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/05/Java8的集合2：HashSet的实现原理/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/28/Java8的集合1：ArrayList的实现原理/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="npw">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/touxiang.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GeorgeN的博客">
-    </span>
-
-    
-      <header class="post-header">
-      
-      
-        <i class="fa fa-thumb-tack"></i>
-        <font color=7D26CD>置顶</font>
-      
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/28/Java8的集合1：ArrayList的实现原理/" itemprop="url">Java8的集合1：ArrayList的实现原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T12:58:36+08:00">
-                2019-04-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA集合/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA集合</span>
-                  </a>
-                </span>
-
-                
-                
-              
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
             </span>
           
 
           
-            
-          
 
           
-          
-
-          
-
-          
-
+              <div class="post-description">
+                  HashSet是Set接口的典型实现，HashSet按照Hash算法来存储集合中的元素，底层通过HashMap实现。
+              </div>
           
 
         </div>
@@ -861,18 +400,36 @@
       
 
       
-        
-          
-          概述：一上来，先来看看源码中的这一段注释，我们可以从中提取到一些关键信息：Resizable-array implementation of the List interface. Implements all optional list operations, and permits all el
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/28/Java8的集合1：ArrayList的实现原理/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>HashSet是Set接口的典型实现，HashSet按照Hash算法来存储集合中的元素。存在以下特点：</p>
+<ul>
+<li>不能保证元素的顺序，元素是无序的</li>
+<li>HashSet不是同步的，需要外部保持线程之间的同步问题</li>
+<li>集合元素值允许为null<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.lang.Object </span><br><span class="line">    java.util.AbstractCollection&lt;E&gt; </span><br><span class="line">        java.util.AbstractSet&lt;E&gt; </span><br><span class="line">            java.util.HashSet&lt;E&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="继承关系，实现接口"><a href="#继承关系，实现接口" class="headerlink" title="继承关系，实现接口"></a>继承关系，实现接口</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Serializable, Cloneable, Iterable&lt;E&gt;, Collection&lt;E&gt;, Set&lt;E&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="基本属性"><a href="#基本属性" class="headerlink" title="基本属性"></a>基本属性</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">private transient HashMap&lt;E,Object&gt; map;  //map集合，HashSet存放元素的容器</span><br><span class="line">private static final Object PRESENT = new Object(); //map，中键对应的value值</span><br></pre></td></tr></table></figure>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">//无参构造方法，完成map的创建</span><br><span class="line">public <span class="function"><span class="title">HashSet</span></span>() &#123;</span><br><span class="line">    map = new HashMap&lt;&gt;();</span><br><span class="line">&#125;</span><br><span class="line">//指定集合转化为HashSet, 完成map的创建</span><br><span class="line">public HashSet(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">   map = new HashMap&lt;&gt;(Math.max((int) (c.size()/.75f) + 1, 16));</span><br><span class="line">   addAll(c);</span><br><span class="line">&#125;</span><br><span class="line">//指定初始化大小，和负载因子</span><br><span class="line">public HashSet(int initialCapacity, <span class="built_in">float</span> loadFactor) &#123;</span><br><span class="line">    map = new HashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br><span class="line">//指定初始化大小</span><br><span class="line">public HashSet(int initialCapacity) &#123;</span><br><span class="line">    map = new HashMap&lt;&gt;(initialCapacity);</span><br><span class="line">&#125;</span><br><span class="line">//指定初始化大小和负载因子，dummy 无实际意义</span><br><span class="line">HashSet(int initialCapacity, <span class="built_in">float</span> loadFactor, boolean dummy) &#123;</span><br><span class="line">    map = new LinkedHashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过构造函数，不难发现，<strong>HashSet的底层是采用HashMap实现的。</strong></p>
+<h2 id="add-方法"><a href="#add-方法" class="headerlink" title="add()方法"></a>add()方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E e) &#123;</span><br><span class="line">    <span class="built_in">return</span> map.put(e, PRESENT)==null;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>PRESENT为HashSet类中定义的一个常量，并无实际的意义，HashSet的add()方法调用HashMap的put()方法实现，如果键已经存在，HashMap.put()放回的是旧值，添加失败；如果添加成功，map.put()方法返回的值为null ，HashSet.add()方法返回true。</li>
+<li><p>要添加的元素为map中的key 。</p>
+<h2 id="remove-方法"><a href="#remove-方法" class="headerlink" title="remove()方法"></a>remove()方法</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public boolean remove(Object o) &#123;</span><br><span class="line">    <span class="built_in">return</span> map.remove(o)==PRESENT;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除方法，调用map.remove()方法实现，若map.remove()能找到指定的key,则返回key对应的value。</p>
+</li>
+<li>对于Hashset而言，它所有的key对应的值都是PRESENT。<h1 id="完整源码"><a href="#完整源码" class="headerlink" title="完整源码"></a>完整源码</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line">public class HashSet&lt;E&gt;</span><br><span class="line">    extends AbstractSet&lt;E&gt;</span><br><span class="line">    implements Set&lt;E&gt;, Cloneable, java.io.Serializable</span><br><span class="line">&#123;</span><br><span class="line">    static final long serialVersionUID = -5024744406713321676L; //序列化版本号</span><br><span class="line"></span><br><span class="line">    private transient HashMap&lt;E,Object&gt; map;  //HashMap变量，用于存放HashSet的值</span><br><span class="line"></span><br><span class="line">    private static final Object PRESENT = new Object(); //map中的值</span><br><span class="line"></span><br><span class="line">    //构造方法</span><br><span class="line">    public <span class="function"><span class="title">HashSet</span></span>() &#123;</span><br><span class="line">        map = new HashMap&lt;&gt;();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //构造方法，将指定的集合转化为HashSet</span><br><span class="line">    public HashSet(Collection&lt;? extends E&gt; c) &#123;</span><br><span class="line">        map = new HashMap&lt;&gt;(Math.max((int) (c.size()/.75f) + 1, 16));</span><br><span class="line">        addAll(c);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //构造方法，指定初始化的大小和负载因子</span><br><span class="line">    public HashSet(int initialCapacity, <span class="built_in">float</span> loadFactor) &#123;</span><br><span class="line">        map = new HashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line">    //指定初始化大小</span><br><span class="line">    public HashSet(int initialCapacity) &#123;</span><br><span class="line">        map = new HashMap&lt;&gt;(initialCapacity);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //构造方法，采用default修饰，只能是同一个包下的成员访问。包不相同无法访问</span><br><span class="line">    HashSet(int initialCapacity, <span class="built_in">float</span> loadFactor, boolean dummy) &#123;</span><br><span class="line">        map = new LinkedHashMap&lt;&gt;(initialCapacity, loadFactor);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //HashSet的遍历操作</span><br><span class="line">    //通过这个方法可以发现，HashSet调用了HashMap存放，因为HashSet并不是键值对存储，所以它只是把它的值做了Map中的键，在遍历HashSet的集合元素时，实际上是遍历的Map中Key的集合。</span><br><span class="line">    public Iterator&lt;E&gt; <span class="function"><span class="title">iterator</span></span>() &#123;</span><br><span class="line">        <span class="built_in">return</span> map.keySet().iterator();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //返回集合中元素的容量</span><br><span class="line">    public int <span class="function"><span class="title">size</span></span>() &#123;</span><br><span class="line">        <span class="built_in">return</span> map.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //判断是否为空</span><br><span class="line">    public boolean <span class="function"><span class="title">isEmpty</span></span>() &#123;</span><br><span class="line">        <span class="built_in">return</span> map.isEmpty();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //是否包含指定的元素</span><br><span class="line">    public boolean contains(Object o) &#123;</span><br><span class="line">        <span class="built_in">return</span> map.containsKey(o);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //添加元素，添加的元素作为了Map中的key,value使用了一个常量表示</span><br><span class="line">    public boolean add(E e) &#123;</span><br><span class="line">        <span class="built_in">return</span> map.put(e, PRESENT)==null;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //删除元素</span><br><span class="line">    public boolean remove(Object o) &#123;</span><br><span class="line">        <span class="built_in">return</span> map.remove(o)==PRESENT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //清空集合</span><br><span class="line">    public void <span class="function"><span class="title">clear</span></span>() &#123;</span><br><span class="line">        map.clear();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //克隆方法</span><br><span class="line">    public Object <span class="function"><span class="title">clone</span></span>() &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            HashSet&lt;E&gt; newSet = (HashSet&lt;E&gt;) super.clone();</span><br><span class="line">            newSet.map = (HashMap&lt;E, Object&gt;) map.clone();</span><br><span class="line">            <span class="built_in">return</span> newSet;</span><br><span class="line">        &#125; catch (CloneNotSupportedException e) &#123;</span><br><span class="line">            throw new InternalError();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //写入输出流操作。</span><br><span class="line">    private void writeObject(java.io.ObjectOutputStream s)</span><br><span class="line">        throws java.io.IOException &#123;</span><br><span class="line">        // Write out any hidden serialization magic</span><br><span class="line">        s.defaultWriteObject();</span><br><span class="line"></span><br><span class="line">        // Write out HashMap capacity and load factor</span><br><span class="line">        s.writeInt(map.capacity());</span><br><span class="line">        s.writeFloat(map.loadFactor());</span><br><span class="line"></span><br><span class="line">        // Write out size</span><br><span class="line">        s.writeInt(map.size());</span><br><span class="line"></span><br><span class="line">        // Write out all elements <span class="keyword">in</span> the proper order.</span><br><span class="line">        <span class="keyword">for</span> (E e : map.keySet())</span><br><span class="line">            s.writeObject(e);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //从输入流中读取对象</span><br><span class="line">    private void readObject(java.io.ObjectInputStream s)</span><br><span class="line">        throws java.io.IOException, ClassNotFoundException &#123;</span><br><span class="line">        // Read <span class="keyword">in</span> any hidden serialization magic</span><br><span class="line">        s.defaultReadObject();</span><br><span class="line"></span><br><span class="line">        // Read <span class="keyword">in</span> HashMap capacity and load factor and create backing HashMap</span><br><span class="line">        int capacity = s.readInt();</span><br><span class="line">        <span class="built_in">float</span> loadFactor = s.readFloat();</span><br><span class="line">        map = (((HashSet)this) instanceof LinkedHashSet ?</span><br><span class="line">               new LinkedHashMap&lt;E,Object&gt;(capacity, loadFactor) :</span><br><span class="line">               new HashMap&lt;E,Object&gt;(capacity, loadFactor));</span><br><span class="line"></span><br><span class="line">        // Read <span class="keyword">in</span> size</span><br><span class="line">        int size = s.readInt();</span><br><span class="line"></span><br><span class="line">        // Read <span class="keyword">in</span> all elements <span class="keyword">in</span> the proper order.</span><br><span class="line">        <span class="keyword">for</span> (int i=0; i&lt;size; i++) &#123;</span><br><span class="line">            E e = (E) s.readObject();</span><br><span class="line">            map.put(e, PRESENT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li><p>静下心来仔细研究了一下，发现hashset是通过将相应的内容存储在了一个hashmap里的key中，然后再去读取的。<br>为了保证hashset里面的数据唯一性，这里将hashset存放的元素作为了hashmap里面唯一的key变量，value部分用一个PRESENT对象来存储，也就是源码里面的这一句内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private static final Object PRESENT = new Object();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HashSet的底层通过HashMap实现的，而HashMap在1.7之前使用的是数组+链表实现，在1.8+使用的数组+链表+红黑树实现。其实也可以这样理解，HashSet的底层实现和HashMap使用的是相同的方式，因为Map是无序的，因此HashSet也无法保证顺序。HashSet的方法也是借助HashMap的方法来实现的。</p>
+</li>
+</ul>
+
       
     </div>
     
@@ -887,296 +444,40 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/26/Java：CAS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="npw">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/touxiang.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GeorgeN的博客">
-    </span>
-
-    
-      <header class="post-header">
-      
-      
-        <i class="fa fa-thumb-tack"></i>
-        <font color=7D26CD>置顶</font>
-      
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/26/Java：CAS/" itemprop="url">Java：CAS</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-26T20:46:06+08:00">
-                2019-04-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA-CAS/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA_CAS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/HashSet/" rel="tag"># HashSet</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          本文讲解CAS机制，主要是因为最近准备面试题，发现这个问题在面试中出现的频率非常的高，因此把自己学习过程中的一些理解记录下来，希望能对大家也有帮助。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/26/Java：CAS/">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/28/Java8的集合1：ArrayList的实现原理/" rel="next" title="Java8的集合1：ArrayList的实现原理">
+                <i class="fa fa-chevron-left"></i> Java8的集合1：ArrayList的实现原理
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="npw">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/touxiang.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="GeorgeN的博客">
-    </span>
-
-    
-      <header class="post-header">
-      
-      
-        <i class="fa fa-thumb-tack"></i>
-        <font color=7D26CD>置顶</font>
-      
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/10/10/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T11:09:27+08:00">
-                2018-10-10
-              </time>
+              <a href="/2019/05/05/Java8的集合3：HashMap的实现原理/" rel="prev" title="Java8的集合3：HashMap的实现原理">
+                Java8的集合3：HashMap的实现原理 <i class="fa fa-chevron-right"></i>
+              </a>
             
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/10/10/hello-world/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -1186,10 +487,49 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        
+  <div class="bdsharebuttonbox">
+    <a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a>
+    <a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a>
+    <a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a>
+    <a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a>
+    <a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a>
+    <a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a>
+    <a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a>
+    <a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a>
+    <a href="#" class="bds_more" data-cmd="more"></a>
+    <a class="bds_count" data-cmd="count"></a>
+  </div>
+  <script>
+    window._bd_share_config = {
+      "common": {
+        "bdText": "",
+        "bdMini": "2",
+        "bdMiniList": false,
+        "bdPic": ""
+      },
+      "share": {
+        "bdSize": "16",
+        "bdStyle": "0"
+      },
+      "image": {
+        "viewList": ["tsina", "douban", "sqq", "qzone", "weixin", "twi", "fbook"],
+        "viewText": "分享到：",
+        "viewSize": "16"
+      }
+    }
+  </script>
+
+<script>
+  with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='//bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+</script>
+
+      
+    </div>
+  </div>
 
 
           </div>
@@ -1197,6 +537,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1217,8 +561,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1333,6 +686,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据结构"><span class="nav-number">2.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承关系，实现接口"><span class="nav-number">2.1.</span> <span class="nav-text">继承关系，实现接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本属性"><span class="nav-number">2.2.</span> <span class="nav-text">基本属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#构造方法"><span class="nav-number">3.1.</span> <span class="nav-text">构造方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#add-方法"><span class="nav-number">3.2.</span> <span class="nav-text">add()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove-方法"><span class="nav-number">3.3.</span> <span class="nav-text">remove()方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完整源码"><span class="nav-number">4.</span> <span class="nav-text">完整源码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1506,6 +875,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
