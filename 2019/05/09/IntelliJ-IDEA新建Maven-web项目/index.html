@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="HashMap,红黑树," />
+  <meta name="keywords" content="Ideal,Maven," />
 
 
 
@@ -88,18 +88,26 @@
 
 
 
-<meta name="description" content="HashMap是基于Map接口的实现的，它允许null值和null键，它不是线程同步的，同时也不保证有序。HashMap在进行扩容时，每次扩容都是翻倍。HashMap通过红黑树的方式来处理哈希冲突，可以把效率改进至O（logn）。相比链式结构的节点，树型结构的节点会占用比较多的空间，所以这是一种以空间换时间的改进方式。">
-<meta name="keywords" content="HashMap,红黑树">
+<meta name="description" content="IntelliJ IDEA新建Maven web项目并配置tomcat服务器">
+<meta name="keywords" content="Ideal,Maven">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java8的集合3：HashMap的实现原理">
-<meta property="og:url" content="http://yoursite.com/2019/05/05/Java8的集合3：HashMap的实现原理/index.html">
+<meta property="og:title" content="IntelliJ IDEA新建Maven web项目">
+<meta property="og:url" content="http://yoursite.com/2019/05/09/IntelliJ-IDEA新建Maven-web项目/index.html">
 <meta property="og:site_name" content="GeorgeN的博客">
-<meta property="og:description" content="HashMap是基于Map接口的实现的，它允许null值和null键，它不是线程同步的，同时也不保证有序。HashMap在进行扩容时，每次扩容都是翻倍。HashMap通过红黑树的方式来处理哈希冲突，可以把效率改进至O（logn）。相比链式结构的节点，树型结构的节点会占用比较多的空间，所以这是一种以空间换时间的改进方式。">
+<meta property="og:description" content="IntelliJ IDEA新建Maven web项目并配置tomcat服务器">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-05T12:54:13.258Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1hiedd3j30jv0g3q5d.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1iidlgtj30iw0670t3.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1jhtgvzj30me0iz3z4.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1la0jfjj30ic0h7ab6.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvgy1g2v1owauzdj30uc0k8q5s.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvgy1g2v1p810f9j30uc0kj42c.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1t6fu1mj30ty0o9wf7.jpg">
+<meta property="og:updated_time" content="2019-05-09T07:56:36.217Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java8的集合3：HashMap的实现原理">
-<meta name="twitter:description" content="HashMap是基于Map接口的实现的，它允许null值和null键，它不是线程同步的，同时也不保证有序。HashMap在进行扩容时，每次扩容都是翻倍。HashMap通过红黑树的方式来处理哈希冲突，可以把效率改进至O（logn）。相比链式结构的节点，树型结构的节点会占用比较多的空间，所以这是一种以空间换时间的改进方式。">
+<meta name="twitter:title" content="IntelliJ IDEA新建Maven web项目">
+<meta name="twitter:description" content="IntelliJ IDEA新建Maven web项目并配置tomcat服务器">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1hiedd3j30jv0g3q5d.jpg">
 
 
 
@@ -129,13 +137,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/05/Java8的集合3：HashMap的实现原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/09/IntelliJ-IDEA新建Maven-web项目/"/>
 
 
 
 
 
-  <title>Java8的集合3：HashMap的实现原理 | GeorgeN的博客</title>
+  <title>IntelliJ IDEA新建Maven web项目 | GeorgeN的博客</title>
   
 
 
@@ -297,7 +305,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/05/Java8的集合3：HashMap的实现原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/09/IntelliJ-IDEA新建Maven-web项目/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="npw">
@@ -319,7 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java8的集合3：HashMap的实现原理</h1>
+          <h1 class="post-title" itemprop="name headline">IntelliJ IDEA新建Maven web项目</h1>
         
 
         <div class="post-meta">
@@ -331,8 +339,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-05T20:47:29+08:00">
-                2019-05-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-09T15:50:07+08:00">
+                2019-05-09
               </time>
             
 
@@ -354,8 +362,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA集合/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA集合</span>
+                  <a href="/categories/Ideal/" itemprop="url" rel="index">
+                    <span itemprop="name">Ideal</span>
                   </a>
                 </span>
 
@@ -383,7 +391,7 @@
 
           
               <div class="post-description">
-                  HashMap是基于Map接口的实现的，它允许null值和null键，它不是线程同步的，同时也不保证有序。HashMap在进行扩容时，每次扩容都是翻倍。HashMap通过红黑树的方式来处理哈希冲突，可以把效率改进至O（logn）。相比链式结构的节点，树型结构的节点会占用比较多的空间，所以这是一种以空间换时间的改进方式。
+                  IntelliJ IDEA新建Maven web项目并配置tomcat服务器
               </div>
           
 
@@ -400,36 +408,9 @@
       
 
       
-        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>一上来，先来看看源码中的这一段注释，我们可以从中提取到一些关键信息：<br>Hash table based implementation of the Map interface. This implementation provides all of the optional map operations, and permits null values and the null key. (The HashMap class is roughly equivalent to Hashtable, except that it is unsynchronized and permits nulls.) This class makes no guarantees as to the order of the map; in particular, it does not guarantee that the order will remain constant over time.<br>翻译一下大概就是在说，这个哈希表是基于Map接口的实现的，它允许null值和null键，它不是线程同步的，同时也不保证有序。<br>This implementation provides constant-time performance for the basic operations (get and put), assuming the hash function disperses the elements properly among the buckets. Iteration over collection views requires time proportional to the “capacity” of the HashMap instance (the number of buckets) plus its size (the number of key-value mappings). Thus, it’s very important not to set the initial capacity too high (or the load factor too low) if iteration performance is important. An instance of HashMap has two parameters that affect its performance: initial capacity and load factor. The capacity is the number of buckets in the hash table, and the initial capacity is simply the capacity at the time the hash table is created. The load factor is a measure of how full the hash table is allowed to get before its capacity is automatically increased. When the number of entries in the hash table exceeds the product of the load factor and the current capacity, the hash table is rehashed (that is, internal data structures are rebuilt) so that the hash table has approximately twice the number of buckets.<br>再来看看这一段，讲的是Map的这种实现方式为get（取）和put（存）带来了比较好的性能。但是如果涉及到大量的<strong>遍历操作</strong>的话，就尽量不要把capacity设置得太高（或load factor设置得太低），否则会严重降低遍历的效率。<br>影响HashMap性能的两个重要参数：“<strong>initial capacity</strong>”（初始化容量）和”<strong>load factor</strong>“（负载因子）。简单来说，容量就是哈希表桶的个数，负载因子就是键值对个数与哈希表长度的一个比值，当比值超过负载因子之后，HashMap就会进行rehash操作来进行扩容。<br>HashMap 的大致结构如下，其中哈希表是一个<strong>数组</strong>，我们经常把数组中的每一个节点称为一个桶，哈希表中的每个节点都用来存储一个键值对。在插入元素时，如果发生冲突（即多个键值对映射到同一个桶上）的话，就会通过<strong>链表</strong>的形式来解决冲突。因为一个桶上可能存在多个键值对，所以在查找的时候，会先通过key的哈希值先定位到桶，再遍历桶上的所有键值对，找出key相等的键值对，从而来获取value。</p>
-<h1 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">//默认的初始容量为16</span><br><span class="line">static final int DEFAULT_INITIAL_CAPACITY = 1 &lt;&lt; 4;</span><br><span class="line">//最大的容量上限为2^30</span><br><span class="line">static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;</span><br><span class="line">//默认的负载因子为0.75</span><br><span class="line">static final <span class="built_in">float</span> DEFAULT_LOAD_FACTOR = 0.75f;</span><br><span class="line">//变成树型结构的临界值为8</span><br><span class="line">static final int TREEIFY_THRESHOLD = 8;</span><br><span class="line">//恢复链式结构的临界值为6</span><br><span class="line">static final int UNTREEIFY_THRESHOLD = 6;</span><br><span class="line">//哈希表</span><br><span class="line">transient Node&lt;K,V&gt;[] table;</span><br><span class="line">//哈希表中键值对的个数</span><br><span class="line">transient int size;</span><br><span class="line">//哈希表被修改的次数</span><br><span class="line">transient int modCount;</span><br><span class="line">//它是通过capacity*load factor计算出来的，当size到达这个值时，就会进行扩容操作</span><br><span class="line">int threshold;</span><br><span class="line">//负载因子</span><br><span class="line">final <span class="built_in">float</span> loadFactor;</span><br><span class="line">//当哈希表的大小超过这个阈值，才会把链式结构转化成树型结构，否则仅采取扩容来尝试减少冲突</span><br><span class="line">static final int MIN_TREEIFY_CAPACITY = 64;</span><br></pre></td></tr></table></figure>
-<p>下面是 Node 类的定义，它是 HashMap 中的一个静态内部类，哈希表中的每一个节点都是 Node 类型。我们可以看到，Node 类中有 4 个属性，其中除了 key 和 value 之外，还有 hash 和 next 两个属性。hash 是用来存储 key 的哈希值的，next 是在构建链表时用来指向后继节点的。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; &#123;</span><br><span class="line">    final int <span class="built_in">hash</span>;</span><br><span class="line">    final K key;</span><br><span class="line">    V value;</span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><h2 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h2><p>实现步骤大致如下： </p>
-<ol>
-<li>通过hash值获取该key映射到的桶。</li>
-<li>桶上的key就是要查找的key，则直接命中。 </li>
-<li>桶上的key不是要查找的key，则查看后续节点：<br> （1）如果后续节点是树节点，通过调用树的方法查找该key。<br> （2）如果后续节点是链式节点，则通过循环遍历链查找该key。<h2 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h2>put方法比较复杂，实现步骤大致如下： </li>
-<li>先通过hash值计算出key映射到哪个桶。</li>
-<li>如果桶上没有碰撞冲突，则直接插入。 </li>
-<li>如果出现碰撞冲突了，则需要处理冲突：<br> （1）如果该桶使用红黑树处理冲突，则调用红黑树的方法插入。<br> （2）否则采用传统的链式方法插入。如果链的长度到达临界值，则把链转变为红黑树。. .</li>
-<li>如果桶中存在重复的键，则为该键替换新值。 </li>
-<li>如果size大于阈值，则进行扩容。<h2 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a>remove方法</h2>理解了put方法之后，remove已经没什么难度了，所以重复的内容就不再做详细介绍了。<h2 id="hash方法"><a href="#hash方法" class="headerlink" title="hash方法"></a>hash方法</h2>在get方法和put方法中都需要先计算key映射到哪个桶上，然后才进行之后的操作，计算的主要代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(n - 1) &amp; hash</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>上面代码中的n指的是哈希表的大小，hash指的是key的哈希值，hash是通过下面这个方法计算出来的，采用了二次哈希的方式，其中key的hashCode方法是一个native方法：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static final int <span class="built_in">hash</span>(Object key) &#123;</span><br><span class="line">    int h;</span><br><span class="line">    <span class="built_in">return</span> (key == null) ? 0 : (h = key.hashCode()) ^ (h &gt;&gt;&gt; 16);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个hash方法先通过key的hashCode方法获取一个哈希值，再拿这个哈希值与它的<strong>高16位</strong>的哈希值做一个异或操作来得到最后的哈希值。</p>
-<p>为啥要这样做呢？注释中是这样解释的：如果当n很小，假设为64的话，那么n-1即为63（0x111111），这样的值跟hashCode()直接做与操作，实际上只使用了哈希值的后6位。如果当哈希值的高位变化很大，低位变化很小，这样就很容易造成冲突了，所以这里把高低位都利用起来，从而解决了这个问题。</p>
-<p>正是因为与的这个操作，决定了HashMap的大小只能是2的幂次方，想一想，如果不是2的幂次方，会发生什么事情？即使你在创建HashMap的时候指定了初始大小，HashMap在构建的时候也会调用下面这个方法来调整大小：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static final int tableSizeFor(int cap) &#123;</span><br><span class="line">    int n = cap - 1;</span><br><span class="line">    n |= n &gt;&gt;&gt; 1;</span><br><span class="line">    n |= n &gt;&gt;&gt; 2;</span><br><span class="line">    n |= n &gt;&gt;&gt; 4;</span><br><span class="line">    n |= n &gt;&gt;&gt; 8;</span><br><span class="line">    n |= n &gt;&gt;&gt; 16;</span><br><span class="line">    return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个方法的作用看起来可能不是很直观，它的实际作用就是把cap变成第一个大于等于2的幂次方的数。例如，16还是16，13就会调整为16，17就会调整为32。</p>
-<h2 id="resize方法"><a href="#resize方法" class="headerlink" title="resize方法"></a>resize方法</h2><p>HashMap在进行扩容时，使用的rehash方式非常巧妙，因为每次扩容都是翻倍，与原来计算（n-1）&amp;hash的结果相比，只是多了一个bit位，所以节点要么就在原来的位置，要么就被分配到“原位置+旧容量”这个位置。</p>
-<p>例如，原来的容量为32，那么应该拿hash跟31（0x11111）做与操作；在扩容扩到了64的容量之后，应该拿hash跟63（0x111111）做与操作。新容量跟原来相比只是多了一个bit位，假设原来的位置在23，那么当新增的那个bit位的计算结果为0时，那么该节点还是在23；相反，计算结果为1时，则该节点会被分配到23+31的桶上。</p>
-<p>正是因为这样巧妙的rehash方式，保证了rehash之后每个桶上的节点数必定小于等于原来桶上的节点数，即保证了rehash之后不会出现更严重的冲突。</p>
-<p>在这里有一个需要注意的地方，有些文章指出当哈希表的<strong>桶占用</strong>超过阈值时就进行扩容，这是不对的；实际上是当哈希表中的<strong>键值对个数</strong>超过阈值时，才进行扩容的。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
-<li><p>通过红黑树的方式来处理哈希冲突是我第一次看见！学过哈希，学过红黑树，就是从来没想到两个可以结合到一起这么用！</p>
-</li>
-<li><p>按照原来的拉链法来解决冲突，如果一个桶上的冲突很严重的话，是会导致哈希表的效率降低至O（n），而通过红黑树的方式，可以把效率改进至O（logn）。相比链式结构的节点，树型结构的节点会占用比较多的空间，所以这是一种以空间换时间的改进方式。</p>
-</li>
-</ul>
+        <p>第一次使用Intellij idea，有诸多不熟悉，之处，网上很多教程千差万别，为日后少走弯路，特此记录。</p>
+<p>步骤一：首先先创建一个project，打开-File-New-Project </p>
+<p>步骤二：你要选择maven然后按照下面图片 的指示操作就可以了<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1hiedd3j30jv0g3q5d.jpg" alt=""><br>点击next按钮<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1iidlgtj30iw0670t3.jpg" alt=""><br>点击next，该图为示例图片，XX为你自己设置的项目名，如im，<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1jhtgvzj30me0iz3z4.jpg" alt=""><br>之后点击finish，等idea完全加载完成后，就可以看到项目已经生成了（有时也缺少下图中的resources目录，也需要手动创建）<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1la0jfjj30ic0h7ab6.jpg" alt=""><br>步骤三：配置tocat服务器。点击那个倒立的三角形，然后点击Edit Configurations<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2v1owauzdj30uc0k8q5s.jpg" alt=""><br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2v1p810f9j30uc0kj42c.jpg" alt=""><br>配置artifacts，标签由Server跳到Deploment，点击小铅笔一样的图标对artifacts进行配置<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1t6fu1mj30ty0o9wf7.jpg" alt=""></p>
 
       
     </div>
@@ -447,9 +428,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/HashMap/" rel="tag"># HashMap</a>
+            <a href="/tags/Ideal/" rel="tag"># Ideal</a>
           
-            <a href="/tags/红黑树/" rel="tag"># 红黑树</a>
+            <a href="/tags/Maven/" rel="tag"># Maven</a>
           
         </div>
       
@@ -462,8 +443,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/05/Java8的集合2：HashSet的实现原理/" rel="next" title="Java8的集合2：HashSet的实现原理">
-                <i class="fa fa-chevron-left"></i> Java8的集合2：HashSet的实现原理
+              <a href="/2019/05/08/如何使用Ideal上传本地项目至GitHub/" rel="next" title="如何使用Ideal上传本地项目至GitHub">
+                <i class="fa fa-chevron-left"></i> 如何使用Ideal上传本地项目至GitHub
               </a>
             
           </div>
@@ -472,8 +453,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/06/Java8的集合4：LinkedHashMap的实现原理/" rel="prev" title="Java8的集合4：LinkedHashMap的实现原理">
-                Java8的集合4：LinkedHashMap的实现原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/09/Ideal项目如何与github同步-pull-push/" rel="prev" title="Ideal项目如何与github同步(pull,push)">
+                Ideal项目如何与github同步(pull,push) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -564,17 +545,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -689,22 +661,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性"><span class="nav-number">2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#get方法"><span class="nav-number">3.1.</span> <span class="nav-text">get方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#put方法"><span class="nav-number">3.2.</span> <span class="nav-text">put方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove方法"><span class="nav-number">3.3.</span> <span class="nav-text">remove方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hash方法"><span class="nav-number">3.4.</span> <span class="nav-text">hash方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#resize方法"><span class="nav-number">3.5.</span> <span class="nav-text">resize方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-05-08T12:50:36.209Z</updated>
+  <updated>2019-05-09T07:55:11.887Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,59 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Ideal项目如何与github同步(pull,push)</title>
+    <link href="http://yoursite.com/2019/05/09/Ideal%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E4%B8%8Egithub%E5%90%8C%E6%AD%A5-pull-push/"/>
+    <id>http://yoursite.com/2019/05/09/Ideal项目如何与github同步-pull-push/</id>
+    <published>2019-05-09T07:52:55.000Z</published>
+    <updated>2019-05-09T07:55:11.887Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="从GitHub更新项目到Ideal（pull）"><a href="#从GitHub更新项目到Ideal（pull）" class="headerlink" title="从GitHub更新项目到Ideal（pull）"></a>从GitHub更新项目到Ideal（pull）</h2><ol><li>右击项目名 –&gt; Git –&gt; Repository –&gt; pull</li></ol><h2 id="从Ideal更新项目到GitHub（push）"><a href="#从Ideal更新项目到GitHub（push）" class="headerlink" title="从Ideal更新项目到GitHub（push）"></a>从Ideal更新项目到GitHub（push）</h2><ol><li>右击项目名 –&gt; Git –&gt; commit diretory</li><li>右击项目名 –&gt; Git –&gt; Repository –&gt; push</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      Ideal使用(pull,push)命令使本地项目与github端同步
+    
+    </summary>
+    
+      <category term="Ideal" scheme="http://yoursite.com/categories/Ideal/"/>
+    
+    
+      <category term="Ideal" scheme="http://yoursite.com/tags/Ideal/"/>
+    
+      <category term="GitHub" scheme="http://yoursite.com/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>IntelliJ IDEA新建Maven web项目</title>
+    <link href="http://yoursite.com/2019/05/09/IntelliJ-IDEA%E6%96%B0%E5%BB%BAMaven-web%E9%A1%B9%E7%9B%AE/"/>
+    <id>http://yoursite.com/2019/05/09/IntelliJ-IDEA新建Maven-web项目/</id>
+    <published>2019-05-09T07:50:07.000Z</published>
+    <updated>2019-05-09T07:56:36.217Z</updated>
+    
+    <content type="html"><![CDATA[<p>第一次使用Intellij idea，有诸多不熟悉，之处，网上很多教程千差万别，为日后少走弯路，特此记录。</p><p>步骤一：首先先创建一个project，打开-File-New-Project </p><p>步骤二：你要选择maven然后按照下面图片 的指示操作就可以了<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1hiedd3j30jv0g3q5d.jpg" alt=""><br>点击next按钮<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1iidlgtj30iw0670t3.jpg" alt=""><br>点击next，该图为示例图片，XX为你自己设置的项目名，如im，<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1jhtgvzj30me0iz3z4.jpg" alt=""><br>之后点击finish，等idea完全加载完成后，就可以看到项目已经生成了（有时也缺少下图中的resources目录，也需要手动创建）<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1la0jfjj30ic0h7ab6.jpg" alt=""><br>步骤三：配置tocat服务器。点击那个倒立的三角形，然后点击Edit Configurations<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2v1owauzdj30uc0k8q5s.jpg" alt=""><br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2v1p810f9j30uc0kj42c.jpg" alt=""><br>配置artifacts，标签由Server跳到Deploment，点击小铅笔一样的图标对artifacts进行配置<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2v1t6fu1mj30ty0o9wf7.jpg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      IntelliJ IDEA新建Maven web项目并配置tomcat服务器
+    
+    </summary>
+    
+      <category term="Ideal" scheme="http://yoursite.com/categories/Ideal/"/>
+    
+    
+      <category term="Ideal" scheme="http://yoursite.com/tags/Ideal/"/>
+    
+      <category term="Maven" scheme="http://yoursite.com/tags/Maven/"/>
+    
+  </entry>
+  
+  <entry>
     <title>如何使用Ideal上传本地项目至GitHub</title>
     <link href="http://yoursite.com/2019/05/08/%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8Ideal%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E9%A1%B9%E7%9B%AE%E8%87%B3GitHub/"/>
     <id>http://yoursite.com/2019/05/08/如何使用Ideal上传本地项目至GitHub/</id>
     <published>2019-05-08T12:46:30.000Z</published>
-    <updated>2019-05-08T12:50:36.209Z</updated>
+    <updated>2019-05-09T07:52:26.496Z</updated>
     
     <content type="html"><![CDATA[<h1 id="IDEA配置github并上传项目"><a href="#IDEA配置github并上传项目" class="headerlink" title="IDEA配置github并上传项目"></a>IDEA配置github并上传项目</h1><h2 id="配置GitHub"><a href="#配置GitHub" class="headerlink" title="配置GitHub"></a>配置GitHub</h2><ol><li><p>在github中创建一个账号：<a href="https://github.com/join?source=header-home" target="_blank" rel="noopener">https://github.com/join?source=header-home</a></p></li><li><p>下载并安装git：<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">https://git-scm.com/downloads</a></p></li><li><p>安装成功后打开Git Bash，输入下列命令，设置git全局用户名和邮箱</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure></li><li><p>在IDEA中设置Git，在File–&gt;Setting-&gt;Version Control–&gt;Git–&gt;Path to Git executable选择你的git安装后的git.exe文件，然后点击Test，测试是否设置成功<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6ku0q2ij30s70c9jsn.jpg" alt=""><br>要是在bin目录下没找到此exe，不妨看看cmd目录下面有没有，也就是c://~install/cmd/git.exe;</p></li><li><p>在IDEA中设置GitHub，File–&gt;Setting-&gt;Version Control–&gt;GibHub<br> Host：github.com<br> Token：点击Create API Token，输入在github中注册的用户名和密码生成token<br>　点击Test，测试是否连接成功<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6mtqppej30sb0d0jsj.jpg" alt=""></p></li><li>创建本地仓库，VCS–&gt;Import into Version Control–&gt;Create Git Repository…<br>(要给自己的项目建立一个git本地仓库,因为后面修改代码应当先上传到本地仓库，再从本地仓库上传到github上)<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6ow38xjj30s90ea0ua.jpg" alt="">在弹框中选中项目所在的位置，点击OK，此时项目文件全部变成红色（若选中其他位置，则git–&gt;add不可点选，不知为何）</li><li>上传项目到本地仓库，项目右键选择Git–&gt;add，此时项目文件变成绿色，此时文件只是处于暂存区，并没有真正进入到版本库（本地）中。(本步骤是接着第6步骤的，把代码add到暂存区当中)<img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6taf24bj30la0fjdi6.jpg" alt=""></li><li>项目右键Git–&gt; Commit Directory，在弹窗中输入Commit Message，点击commit，此时项目文件从暂存区真正进入版本库中，项目文件变成白色。<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6vkwmlhj30j40g0dhx.jpg" alt=""><br>(此步骤接着第7步骤，只有commint directory才是提交到本地仓库)<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6w9s6nvj30kw0mzgo6.jpg" alt=""></li><li>上传项目到GitHub中，VCS–&gt;Import into Version Control–&gt;Share Project on GitHub，在弹框中输入仓库名和描述，点击Share，即可是上传，中间会弹窗输入GitHub的用户名和密码（已输入过用户名和密码并记住的不会再次弹框输入），上传成功后IDEA右下角会给出提示<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u6x0spe6j30bn0760su.jpg" alt=""></li><li>提交修改文件到GitHub<br>新增文件（红色），右键–&gt;Git–&gt;add，将新增的文件加入本地仓库，此时文件变绿色<br>修改文件（蓝色）<br>在项目右键–&gt;Git–&gt;Commit Directory，查看有变动的文件并输入Commit Message，点击Commit and Push…<br>提交后会进行语法检查，若存在错误或警告会给出确认提示，点击Commit，弹出Push框，点击Push，上传GitHub成功（因为此时是你自己的项目，所以有权限提交，一般git到别人的项目，应当叫别人给与权限你才能提交）<br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u701vzhhj30aa07q74h.jpg" alt=""><br><img src="http://ww1.sinaimg.cn/large/006pqaYvgy1g2u70li5i4j30l40mx76g.jpg" alt=""></li></ol>]]></content>
     
