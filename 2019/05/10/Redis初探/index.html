@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="LinkedHashMap," />
+  <meta name="keywords" content="Redis,NoSql," />
 
 
 
@@ -88,18 +88,23 @@
 
 
 
-<meta name="description" content="LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序（accessOrder=true），那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。LinkedHashMap是线程不安全的。">
-<meta name="keywords" content="LinkedHashMap">
+<meta name="description" content="Redis初探">
+<meta name="keywords" content="Redis,NoSql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java8的集合4：LinkedHashMap的实现原理">
-<meta property="og:url" content="http://yoursite.com/2019/05/06/Java8的集合4：LinkedHashMap的实现原理/index.html">
+<meta property="og:title" content="Redis初探">
+<meta property="og:url" content="http://yoursite.com/2019/05/10/Redis初探/index.html">
 <meta property="og:site_name" content="GeorgeN的博客">
-<meta property="og:description" content="LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序（accessOrder=true），那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。LinkedHashMap是线程不安全的。">
+<meta property="og:description" content="Redis初探">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-06T12:39:14.273Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2w118a1w8j309104kmx4.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2w149rpwxj309y06c0sr.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2w14svm04j309w049749.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2w151cr1pj309i03o0so.jpg">
+<meta property="og:updated_time" content="2019-05-10T03:38:22.235Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java8的集合4：LinkedHashMap的实现原理">
-<meta name="twitter:description" content="LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序（accessOrder=true），那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。LinkedHashMap是线程不安全的。">
+<meta name="twitter:title" content="Redis初探">
+<meta name="twitter:description" content="Redis初探">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006pqaYvly1g2w118a1w8j309104kmx4.jpg">
 
 
 
@@ -129,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/06/Java8的集合4：LinkedHashMap的实现原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/10/Redis初探/"/>
 
 
 
 
 
-  <title>Java8的集合4：LinkedHashMap的实现原理 | GeorgeN的博客</title>
+  <title>Redis初探 | GeorgeN的博客</title>
   
 
 
@@ -297,7 +302,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/06/Java8的集合4：LinkedHashMap的实现原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/10/Redis初探/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="npw">
@@ -319,7 +324,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java8的集合4：LinkedHashMap的实现原理</h1>
+          <h1 class="post-title" itemprop="name headline">Redis初探</h1>
         
 
         <div class="post-meta">
@@ -331,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-06T20:35:01+08:00">
-                2019-05-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-10T11:36:49+08:00">
+                2019-05-10
               </time>
             
 
@@ -354,8 +359,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA集合/" itemprop="url" rel="index">
-                    <span itemprop="name">JAVA集合</span>
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
                   </a>
                 </span>
 
@@ -383,7 +388,7 @@
 
           
               <div class="post-description">
-                  LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序（accessOrder=true），那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。LinkedHashMap是线程不安全的。
+                  Redis初探
               </div>
           
 
@@ -400,25 +405,131 @@
       
 
       
-        <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>按照惯例，先看一下源码里的第一段注释：</p>
-<p>Hash table and linked list implementation of the Map interface, with predictable iteration order. This implementation differs from HashMap in that it maintains a doubly-linked list running through all of its entries. This linked list defines the iteration ordering, which is normally the order in which keys were inserted into the map (insertion-order). Note that insertion order is not affected if a key is re-inserted into the map. (A key k is reinserted into a map m if m.put(k, v) is invoked when m.containsKey(k) would return true immediately prior to the invocation.)</p>
-<p>从注释中，我们可以先了解到LinkedHashMap是通过<strong>哈希表</strong>和<strong>链表</strong>实现的，它通过维护一个链表来保证对哈希表迭代时的<strong>有序性</strong>，而这个有序是指<strong>键值对插入的顺序</strong>。另外，当向哈希表中重复插入某个键的时候，不会影响到原来的有序性。也就是说，假设你插入的键的顺序为1、2、3、4，后来再次插入2，迭代时的顺序还是1、2、3、4，而不会因为后来插入的2变成1、3、4、2。（但其实我们可以改变它的规则，使它变成1、3、4、2）</p>
-<p>LinkedHashMap的实现主要分两部分，一部分是哈希表，另外一部分是链表。哈希表部分继承了HashMap，拥有了HashMap那一套高效的操作，LinkedHashMap中链表的部分，通过一个双向链表，按序存储HashMap的每个键值对，借此来维护有序性。</p>
-<h1 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h1><p>LinkedHashMap 是继承自 HashMap 的，所以它已经从 HashMap 那里继承了与哈希表相关的操作了，那么在 LinkedHashMap 中，它可以专注于链表实现的那部分，所以与链表实现相关的属性如下。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">//LinkedHashMap的链表节点继承了HashMap的节点，而且每个节点都包含了前指针和后指针，所以这里可以看出它是一个双向链表</span><br><span class="line">static class Entry&lt;K,V&gt; extends HashMap.Node&lt;K,V&gt; &#123;</span><br><span class="line">    Entry&lt;K,V&gt; before, after;</span><br><span class="line">    Entry(int hash, K key, V value, Node&lt;K,V&gt; next) &#123;</span><br><span class="line">        super(hash, key, value, next);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//头指针</span><br><span class="line">transient LinkedHashMap.Entry&lt;K,V&gt; head;</span><br><span class="line"></span><br><span class="line">//尾指针</span><br><span class="line">transient LinkedHashMap.Entry&lt;K,V&gt; tail;</span><br><span class="line"></span><br><span class="line">//默认为false。当为true时，表示链表中键值对的顺序与每个键的插入顺序一致，也就是说重复插入键，也会更新顺序</span><br><span class="line">//简单来说，为false时，就是上面所指的1、2、3、4的情况；为true时，就是1、3、4、2的情况</span><br><span class="line">final boolean accessOrder;</span><br></pre></td></tr></table></figure></p>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>在HashMap的源码中，我们可以发现，HashMap中有如下三个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// Callbacks to allow LinkedHashMap post-actions</span><br><span class="line"></span><br><span class="line">void afterNodeAccess(Node&lt;K,V&gt; p) &#123; &#125;</span><br><span class="line"></span><br><span class="line">void afterNodeInsertion(boolean evict) &#123; &#125;</span><br><span class="line"></span><br><span class="line">void afterNodeRemoval(Node&lt;K,V&gt; p) &#123; &#125;</span><br></pre></td></tr></table></figure></p>
-<p>这三个方法表示的是在访问、插入、删除某个节点之后，进行一些处理，它们在LinkedHashMap都有各自的实现。LinkedHashMap正是通过重写这三个方法来保证<strong>链表</strong>的插入、删除的有序性。</p>
-<h2 id="afterNodeAccess方法"><a href="#afterNodeAccess方法" class="headerlink" title="afterNodeAccess方法"></a>afterNodeAccess方法</h2><p>改方法就是把当前节点e移至链表的尾部。因为使用的是双向链表，所以在尾部插入可以以O（1）的时间复杂度来完成。并且只有当accessOrder设置为true时，才会执行这个操作。在HashMap的putVal方法中，就调用了这个方法。</p>
-<h2 id="afterNodeInsertion方法"><a href="#afterNodeInsertion方法" class="headerlink" title="afterNodeInsertion方法"></a>afterNodeInsertion方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">void afterNodeInsertion(boolean evict) &#123; // possibly remove eldest</span><br><span class="line">    LinkedHashMap.Entry&lt;K,V&gt; first;</span><br><span class="line">    if (evict &amp;&amp; (first = head) != null &amp;&amp; removeEldestEntry(first)) &#123;</span><br><span class="line">        K key = first.key;</span><br><span class="line">        removeNode(hash(key), key, null, false, true);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>afterNodeInsertion方法是在哈希表中插入了一个新节点时调用的，它会把链表的头节点删除掉，删除的方式是通过调用HashMap的removeNode方法。通过afterNodeInsertion方法和afterNodeAccess方法，就可以简单的实现一个基于最近最少使用（LRU）的淘汰策略。当然，我们还要重写removeEldestEntry方法，因为它默认返回的是false。</p>
-<h2 id="afterNodeRemoval方法"><a href="#afterNodeRemoval方法" class="headerlink" title="afterNodeRemoval方法"></a>afterNodeRemoval方法</h2><p>这个方法是当HashMap删除一个键值对时调用的，它会把在HashMap中删除的那个键值对一并从链表中删除，保证了哈希表和链表的一致性。</p>
-<h2 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h2><p>LinkedHashMap的get方法调用的是HashMap的getNode方法来获取结果的。并且，如果你把accessOrder设置为true，那么在获取到值之后，还会调用afterNodeAccess方法。这样就能保证一个<strong>LRU</strong>的算法。</p>
-<h2 id="put和remove方法"><a href="#put和remove方法" class="headerlink" title="put和remove方法"></a>put和remove方法</h2><p>LinkedHashMap的源码中没有找到put方法，这就说明了它并没有重写put方法，所以我们调用的put方法其实是HashMap的put方法。因为HashMap的put方法中调用了afterNodeAccess方法和afterNodeInsertion方法，已经足够保证链表的有序性了，所以它也就没有重写put方法了。remove方法也是如此。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
-<li>LinkedHashMap是继承于HashMap，是基于HashMap和双向链表来实现的。</li>
-<li>HashMap无序；LinkedHashMap有序，可分为插入顺序和访问顺序两种。如果是访问顺序（accessOrder=true），那put和get操作已存在的Entry时，都会把Entry移动到双向链表的表尾(其实是先删除再插入)。</li>
-<li>LinkedHashMap存取数据，还是跟HashMap一样使用的Entry[]的方式，双向链表只是为了保证顺序。</li>
-<li>LinkedHashMap是线程不安全的。</li>
-</ol>
+        <h2 id="Sql对比NoSql"><a href="#Sql对比NoSql" class="headerlink" title="Sql对比NoSql"></a>Sql对比NoSql</h2><p>Sql：</p>
+<ul>
+<li>访问和处理关系数据库的计算机标准语言。mysql数据库，数据库以“文件形式存储在硬盘”里边。</li>
+</ul>
+<p>NoSql：</p>
+<ul>
+<li><strong>CAP： 强一致性（C），可用性（A），分区容错性（P）</strong></li>
+<li>CAP核心理论：最多只能很好的满足两个特性</li>
+<li>CAP的3进2：分区容错性必须要实现，只能在一致性和可用性之间权衡</li>
+<li><strong>redis：CP</strong></li>
+<li>网站架构的大多选择：AP</li>
+</ul>
+<h2 id="Redis"><a href="#Redis" class="headerlink" title="Redis"></a>Redis</h2><h3 id="1-什么是Redis"><a href="#1-什么是Redis" class="headerlink" title="1.  什么是Redis"></a>1.  什么是Redis</h3><p>Redis是远程数据服务，内存高速缓存数据库，支持丰富的数据结构，如String、list、hash、set、sorted set，可持久化，保证了数据安全。<strong>Redis是做数据缓存的。</strong></p>
+<p>缓存有两种类型：数据缓存、页面缓存</p>
+<p>使用缓存减轻数据库的负载。</p>
+<p>在开发的时候如果有一些数据在短时间之内不会发生变化，而他们还要被频繁的访问，为了提高用户的请求速度和降低网站的负载，就把这些数据放到一个读取速度更快的介质上（或者是通过较少的计算量就可以获得该数据），该行为就称作对该数据的缓存。</p>
+<p>该介质可以是文件、数据库、内存，内存经常用于数据缓存。</p>
+<p>缓存的两种形式：<br> <font color="#DC143C">页面缓存</font>经常用在CMS内存管理系统里边<br> <font color="#DC143C">数据缓存</font>经常用于页面的具体数据里边</p>
+<p>新闻页面（内容单一，集中）适合做页面缓存<br>商品页面的组成部分根据业务特点，各个部分数据比较独立，适合给他们分别做数据缓存。</p>
+<h3 id="2-redis和memcache比较"><a href="#2-redis和memcache比较" class="headerlink" title="2.  redis和memcache比较"></a>2.  redis和memcache比较</h3><ul>
+<li>Redis和Memcache都是将数据存放在内存中，都是<strong>内存数据库</strong>。不过memcache还可用于缓存其他东西，例如图片、视频等等。</li>
+<li>Redis不仅仅支持简单的k/v类型的数据，同时还提供list，set，zset，hash等数据结构的存储。</li>
+<li>Redis支持master-slave（主从）模型应用</li>
+<li>Redis支持数据的持久化，可以将内存中的数据保持在磁盘中，重启的时候可以再次加载进行使用</li>
+<li>Redis单个value的最大限制是1GB，memcached只能保存1MB的数据。</li>
+<li>在Redis中，<strong>并不是所有的数据都一直存储在内存中</strong>的。这是和Memcached相比一个最大的区别（我个人是这么认为的）。</li>
+</ul>
+<h3 id="3-redis常见使用场景"><a href="#3-redis常见使用场景" class="headerlink" title="3.  redis常见使用场景"></a>3.  redis常见使用场景</h3><ul>
+<li>会话缓存（最常用）</li>
+<li>消息队列（如支付）</li>
+<li>活动排行榜或计数</li>
+<li>发布、订阅消息（消息通知）</li>
+<li>商品列表，评论列表</li>
+</ul>
+<h2 id="具体使用"><a href="#具体使用" class="headerlink" title="具体使用"></a>具体使用</h2><h3 id="1-key的操作"><a href="#1-key的操作" class="headerlink" title="1.  key的操作"></a>1.  key的操作</h3><p>在redis里边，除了“\n”和空格不能作为名字的组成部分，其他内容都可以作为key的名字部分。名字长度不作要求。</p>
+<h3 id="2-String类型操作"><a href="#2-String类型操作" class="headerlink" title="2.  String类型操作"></a>2.  String类型操作</h3><ul>
+<li>String是redis最基本的类型</li>
+<li>Redis的string可以包含任何数据。包括jpg图片或者序列化对象</li>
+<li>单个value值最大上限是1G字节</li>
+<li><p>如果只用string类型，redis就可以被看做加上持久化特性的memcache</p>
+</li>
+<li><p><font color="#DC143C">incr</font>：increament增长</p>
+<pre><code>该指令可以对key进行累加1操作，默认是累加1操作，类似i++操作
+该指令可以针对**新key**或**已有key**进行操作
+新key：创建该key并累加1，其值为1
+已有key：key的信息值类型要求必须为整型的
+</code></pre></li>
+<li><p><font color="#DC143C">decr</font>的操作模式与incr一致，不过其是减1操作</p>
+</li>
+<li><p><font color="#DC143C">substr</font>：对内容进行截取，包括<strong>start</strong>和<strong>end</strong>标记位置</p>
+</li>
+</ul>
+<h3 id="3-数据类型List链表"><a href="#3-数据类型List链表" class="headerlink" title="3.  数据类型List链表"></a>3.  数据类型List链表</h3><p>list类型其实就是一个双向链表。通过push，pop操作从链表的头部或者尾部添加删除元素。这使得list既可以用作栈，也可以用作队列。</p>
+<p>List类型操作：</p>
+<ul>
+<li><strong>lpush key string</strong>：在key对应list的头部添加字符串元素</li>
+<li><strong>rpop key</strong>：从list的尾部删除元素，并返回删除元素</li>
+<li><strong>llen key</strong> 返回 key：对应list的长度，key不存在返回0，如果key对应key不是list返回错误</li>
+<li><strong>lrange key start end</strong>：返回指定区间内的元素，下标从0开始</li>
+<li><strong>rpush key string</strong>：同上，在尾部添加</li>
+<li><strong>lpop key</strong>：从list的头部删除元素，并返回删除元素</li>
+<li><strong>ltrim key start end</strong>：截取list，保留指定区间内元素</li>
+</ul>
+<p><strong><em>list链表类型应用场合：</em></strong></p>
+<p><font color="#DC143C">获得最新的10个登录用户信息</font>：select * from user order by logintime desc limit 10；<br>    以上sql语句可以实现用户需求，但是数据多的时候，全部数据都要受到影响，对数据库的复杂比较高。必要情况还需要给关键字段（id或logintime）设置索引，索引也比较耗费系统资源。<br>    如果通过list链表实现以上功能，可以在list链表中只保留最新的10个数据，每进来一个新数据就删除一个旧数据。每次就可以从链表中直接获得需要的数据。极大节省各方面资源消耗。</p>
+<h3 id="4-set集合类型"><a href="#4-set集合类型" class="headerlink" title="4.  set集合类型"></a>4.  set集合类型</h3><ul>
+<li>redis的set是string类型的<strong>无序集合</strong>。</li>
+<li>set元素最大可以包含（2的32次方-1）个元素</li>
+<li>关于set集合类型除了基本的添加删除操作，其他有用的操作还包括集合的取<strong>并集，交集，差集</strong>。通过这些操作可以很容易的实现sns的<font color="#DC143C">好友推荐功能</font>。</li>
+<li>注意：每个集合中的<strong>各个元素不能重复</strong></li>
+</ul>
+<p>set类型操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">·sadd key member：添加一个string元素到key对应的set集合中，成功返回1，如果元素已经在                        set集合中，返回0，key对应的set不存在返回错误。</span><br><span class="line">·sren key member [member]:从key对应set中移除给定元素，成功返回1</span><br><span class="line">·smove p1 p2 member：从p1对应set中移除member并添加到p2对应set中</span><br><span class="line">·scard key：返回set元素个数</span><br><span class="line">·sismember key member：判断set的元素个数</span><br><span class="line">·sinter key1 key2...keyN：返回所有给定key的交集</span><br><span class="line">·sunion key1 key2...keyN：返回所有给定并集</span><br><span class="line">·sdiff key1 key2...keyN:返回所有给定key的差集</span><br><span class="line">·smembers key：返回key对应set的所有元素，结果是无序的。</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>set类型应用场合</em></strong>：<strong>qq好友推荐</strong></p>
+<p>Tom朋友圈（与某某是好友）：mary jack xiaoming wang5 wang6<br>Linken朋友圈（与某某是好友）：yuehan daxiang luce wang5 wang6<br>创建Tom的朋友圈：<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2w118a1w8j309104kmx4.jpg" alt=""><br>创建linken朋友圈：<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2w149rpwxj309y06c0sr.jpg" alt=""><br>对两个set取交集和并集：<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2w14svm04j309w049749.jpg" alt=""><br>取差集：<br><img src="http://ww1.sinaimg.cn/large/006pqaYvly1g2w151cr1pj309i03o0so.jpg" alt=""></p>
+<h3 id="5-Sort-Set排序集合类型"><a href="#5-Sort-Set排序集合类型" class="headerlink" title="5.  Sort Set排序集合类型"></a>5.  Sort Set排序集合类型</h3><ul>
+<li>和set一样sorted set也是string类型元素的集合，不同的是每个元素都会关联一个<strong>权</strong>。通过<strong>权值</strong>可以有序的获取集合中的元素。</li>
+<li>排序集合中的每个元素都是<strong>值、权的组合</strong>，之前的set集合类型每个元素就只有一个值。</li>
+</ul>
+<p>sort set排序类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">·zadd key score member：添加元素到集合，元素在集合中存在则更新对应score。</span><br><span class="line">·zren key member：删除指定元素，1表示成功，如果元素不存在返回0</span><br><span class="line">·zincrby key incr member：按照incr幅度增加对应member的score值，返回score值</span><br><span class="line">·zrank key member：返回指定元素在集合中的排名（下标），集合中元素是按score从小到大排序      的。</span><br><span class="line">·zrevrank key member：同上，但是集合中元素是按score从大到小排序的</span><br><span class="line">·zrange key start end：类似lrange操作从集合中去指定区间的元素。返回的是有序结果</span><br><span class="line">·zrevrange key start end：同上，返回结果是按score逆序的。</span><br><span class="line">·zcard key：返回集合中元素个数。</span><br><span class="line">·zscore key element：返回给定元素对应的score</span><br><span class="line">·zrenrangeburank key min max：删除集合中排名在给定区间的元素。</span><br></pre></td></tr></table></figure></p>
+<p><strong><em>Sort set类型适合场合：</em></strong></p>
+<p><font color="#DC143C">获得热门帖子（回复量）信息</font>：select * from message order by backnum desc limit 5；（以上需求可以通过简单的sql语句实现，但是sql语句比较耗费mysql数据库资源）</p>
+<p>案例：获得热门帖子信息（前5）：<br>我们只做一个sort set排序集合，里边只保留5个元素信息，该5个元素是回复量最高的每个帖子被回复的时候，都有机会进入该集合里边，但是只有回复量最高的前5个帖子会存在于该集合，回复量低的就被删除。</p>
+<h3 id="6-数据类型Hash"><a href="#6-数据类型Hash" class="headerlink" title="6.  数据类型Hash"></a>6.  数据类型Hash</h3><ul>
+<li>是一个键值对集合，是string类型的field和value的映射表，适合<strong>存储对象</strong></li>
+<li>hash数据类型存储的数据与mysql数据库中存储的一条记录极为相似。</li>
+</ul>
+<h2 id="持久化功能"><a href="#持久化功能" class="headerlink" title="持久化功能"></a>持久化功能</h2><p>Redis为了内部数据的安全考虑，会把本身的数据以<strong>文件</strong>形式保存到硬盘中一份，在服务器重启之后会把硬盘的数据恢复到内存（redis）的里边。</p>
+<p>数据保存到硬盘的过程就称为“持久化”效果。</p>
+<h3 id="1-snap-shotting快照持久化（RDB持久化）（保存结果）"><a href="#1-snap-shotting快照持久化（RDB持久化）（保存结果）" class="headerlink" title="1.  snap shotting快照持久化（RDB持久化）（保存结果）"></a>1.  snap shotting快照持久化（RDB持久化）（保存结果）</h3><ul>
+<li>该持久化默认开启，一次性把redis中全部的数据保存一份存储到硬盘中，适合大规模数据恢复，但数据一致性和完整性差</li>
+<li>手动发起快照持久化指令：<strong>bgsave</strong>指令</li>
+<li>默认的文件名为：<strong>dump.rdb</strong></li>
+<li>快照持久化的备份频率：<br>save 900 1 #900秒内如果超过1个key被修改，则发起快照保存<br>save 300 10 #300秒超过10个key被修改，发起快照保存<br>save 60 10000 #60秒超过10000个key被修改，发起快照保存</li>
+</ul>
+<h3 id="2-append-only-file（AOF持久化）（保存操作）"><a href="#2-append-only-file（AOF持久化）（保存操作）" class="headerlink" title="2.  append only file（AOF持久化）（保存操作）"></a>2.  append only file（AOF持久化）（保存操作）</h3><ul>
+<li>本质：把用户执行的每个“写”指令（添加、删除、修改）都备份到文件中，还原数据的时候就是执行具体写指令而已。</li>
+<li>开启AOF持久化（会清空redis内部的数据）</li>
+<li>默认没有开启</li>
+<li>手动开启，完整性高，但内容较多的情况下会影响恢复效率</li>
+</ul>
+<h3 id="3-应用场合"><a href="#3-应用场合" class="headerlink" title="3.  应用场合"></a>3.  应用场合</h3><ul>
+<li>若只是使用redis作为缓存，可关闭持久化</li>
+<li>若使用持久化功能，rdb与aof都建议开启</li>
+</ul>
+<h3 id="4-RDB持久化和AOF持久化的对比"><a href="#4-RDB持久化和AOF持久化的对比" class="headerlink" title="4.  RDB持久化和AOF持久化的对比"></a>4.  RDB持久化和AOF持久化的对比</h3><p>RDB：</p>
+<ul>
+<li>优点：节省磁盘空间，恢复速度快</li>
+<li>缺点：数据庞大时仍然消耗性能，如果redis down掉会丢失最后一次快照的所有更改</li>
+</ul>
+<p>AOF:</p>
+<ul>
+<li>优点：丢失数据概率更低，日志文件可读性高，可处理错误的操作</li>
+<li>缺点 ：相比RDB更占空间，恢复/备份更慢，读写同步会有性能压力</li>
+</ul>
+<h2 id="主从模式-master—slave"><a href="#主从模式-master—slave" class="headerlink" title="主从模式 master—slave"></a>主从模式 master—slave</h2><ul>
+<li>为了降低每个redis服务器的负载，可以多设置几个，并做主从模式，一个服务器负责“写”数据，其他服务器负责“读”数据，主服务器数据会“自动”同步给从服务器。</li>
+<li>Slave服务器默认禁止写操作。</li>
+</ul>
+<h3 id="主从复制"><a href="#主从复制" class="headerlink" title="主从复制"></a>主从复制</h3><ul>
+<li>主从复制  <strong>作用：读写分离，容灾恢复</strong></li>
+<li>配从不配主。常用三招：一主二仆、薪火相传、反客为主</li>
+</ul>
+<h3 id="哨兵机制"><a href="#哨兵机制" class="headerlink" title="哨兵机制"></a>哨兵机制</h3><ul>
+<li>主从切换，多哨兵模式</li>
+</ul>
 
       
     </div>
@@ -436,7 +547,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/LinkedHashMap/" rel="tag"># LinkedHashMap</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+            <a href="/tags/NoSql/" rel="tag"># NoSql</a>
           
         </div>
       
@@ -449,8 +562,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/05/Java8的集合3：HashMap的实现原理/" rel="next" title="Java8的集合3：HashMap的实现原理">
-                <i class="fa fa-chevron-left"></i> Java8的集合3：HashMap的实现原理
+              <a href="/2019/05/09/Ideal项目如何与github同步-pull-push/" rel="next" title="Ideal项目如何与github同步(pull,push)">
+                <i class="fa fa-chevron-left"></i> Ideal项目如何与github同步(pull,push)
               </a>
             
           </div>
@@ -458,10 +571,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/06/数据库sql实战-1/" rel="prev" title="数据库sql实战(1)">
-                数据库sql实战(1) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -686,7 +795,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性"><span class="nav-number">2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方法"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#afterNodeAccess方法"><span class="nav-number">3.1.</span> <span class="nav-text">afterNodeAccess方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#afterNodeInsertion方法"><span class="nav-number">3.2.</span> <span class="nav-text">afterNodeInsertion方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#afterNodeRemoval方法"><span class="nav-number">3.3.</span> <span class="nav-text">afterNodeRemoval方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get方法"><span class="nav-number">3.4.</span> <span class="nav-text">get方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#put和remove方法"><span class="nav-number">3.5.</span> <span class="nav-text">put和remove方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sql对比NoSql"><span class="nav-number">1.</span> <span class="nav-text">Sql对比NoSql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis"><span class="nav-number">2.</span> <span class="nav-text">Redis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是Redis"><span class="nav-number">2.1.</span> <span class="nav-text">1.  什么是Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-redis和memcache比较"><span class="nav-number">2.2.</span> <span class="nav-text">2.  redis和memcache比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-redis常见使用场景"><span class="nav-number">2.3.</span> <span class="nav-text">3.  redis常见使用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#具体使用"><span class="nav-number">3.</span> <span class="nav-text">具体使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-key的操作"><span class="nav-number">3.1.</span> <span class="nav-text">1.  key的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-String类型操作"><span class="nav-number">3.2.</span> <span class="nav-text">2.  String类型操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-数据类型List链表"><span class="nav-number">3.3.</span> <span class="nav-text">3.  数据类型List链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-set集合类型"><span class="nav-number">3.4.</span> <span class="nav-text">4.  set集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Sort-Set排序集合类型"><span class="nav-number">3.5.</span> <span class="nav-text">5.  Sort Set排序集合类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-数据类型Hash"><span class="nav-number">3.6.</span> <span class="nav-text">6.  数据类型Hash</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#持久化功能"><span class="nav-number">4.</span> <span class="nav-text">持久化功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-snap-shotting快照持久化（RDB持久化）（保存结果）"><span class="nav-number">4.1.</span> <span class="nav-text">1.  snap shotting快照持久化（RDB持久化）（保存结果）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-append-only-file（AOF持久化）（保存操作）"><span class="nav-number">4.2.</span> <span class="nav-text">2.  append only file（AOF持久化）（保存操作）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-应用场合"><span class="nav-number">4.3.</span> <span class="nav-text">3.  应用场合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-RDB持久化和AOF持久化的对比"><span class="nav-number">4.4.</span> <span class="nav-text">4.  RDB持久化和AOF持久化的对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主从模式-master—slave"><span class="nav-number">5.</span> <span class="nav-text">主从模式 master—slave</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主从复制"><span class="nav-number">5.1.</span> <span class="nav-text">主从复制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哨兵机制"><span class="nav-number">5.2.</span> <span class="nav-text">哨兵机制</span></a></li></ol></li></ol></div>
             
 
           </div>
