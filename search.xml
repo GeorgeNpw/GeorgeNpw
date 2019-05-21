@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Java中常见的OOM]]></title>
+    <url>%2F2019%2F05%2F21%2FJava%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84OOM%2F</url>
+    <content type="text"><![CDATA[Java中常见的OOM异常1.栈溢出 java.lang.StackOverflowError 这是由于线程请求的栈深度大于虚拟机所允许的最大深度，无法压入新的栈帧，这时可以检查一下代码中是否存在死循环的递归调用。 2.堆溢出 java.lang.OutOfMemoryError: Java heap space 堆空间无法给新的对象分配内存空间且GC一次后仍然无法分配足够的空间时会导致堆溢出。（对象太多、太大） 3.元空间溢出 java.lang.OutOfMemoryError: Metaspace 在JDK1.8后，Metaspace 代替永久代，存放了以下的信息：虚拟机加载的类的信息、常量池、静态变量、即时编译后的代码。若不断生成类，往元空间灌，会造成元空间溢出。 4.无法创建新进程 java.lang.OutOfMemoryError:unable to create natvie thread 高并发请求服务器时经常出现的异常，准确的说，该native thread异常与对应的平台有关。 导致原因： 应用创建过多的线程，超过系统承载极限 服务器不允许创建这么多线程，linux默认单个进程可以创建的线程数为1024个 解决方法： 降低应用程序线程数量 对于那些确实需要的程序，修改Linux服务器的配置，扩大默认限制 5.GC回收异常 ava.lang:OutOfMemoryError: GC overhead limit exceeded GC回收时间长时会抛出OutOfMemoryError。过长的定义是，超过98%的时间用来做GC并且回收了不到2%的堆内存，连续多次GC都只回收了不到2%的极端情况下才会抛出。 假设不抛出GC overhead limit错误会发生什么情况呢？那就是GC清理的这么点内存很快会再次填满，迫使GC再次执行，这样就形成恶性循环，CPU使用率一直是100%，而GC缺没有任何成果。 6.本地直接内存溢出 java.lang.OutOfMemoryError: Direct buffer memory 写NIO程序时经常使用ByteBuffer来读取或写入数据，这是一种基于通道和缓冲区的I/O方式，它可以使用Native函数直接分配堆外内存，然后通过DirectByteBuffer对象作为这块内存的引用进行操作。这样可以在一些场景中显著提高性能，因为避免了在Java堆和Native堆中来回复制数据。 ByteBuffer.allocate() 分配JVM内存，属于GC范围，速度较慢 ByteBuffer.allocateDirect() 分配OS本地内存，不属于GC，速度较快 但如果不断分配本地内存，堆内存很少使用，JVM不需要GC，DirectByteBuffer对象们就不会被回收，这时候，堆内存充足，但本地内存很可能使用光了，再次尝试分配本地内存就会出现OOM Error。]]></content>
+      <categories>
+        <category>OOM</category>
+      </categories>
+      <tags>
+        <tag>OOM</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[JDK1.8下String.intern()分析]]></title>
+    <url>%2F2019%2F05%2F21%2FJDK1-8%E4%B8%8BString-intern-%E5%88%86%E6%9E%90%2F</url>
+    <content type="text"><![CDATA[一. String.intern()分析 判断这个常量是否存在于常量池。 如果存在 判断存在内容是引用还是常量， 如果是引用， 返回引用地址指向堆空间对象， 如果是常量， 直接返回常量池常量 如果不存在， 将当前对象引用复制到常量池,并且返回的是当前对象的引用 二. 创建字符串分析1. 只在常量池上创建常量 String a1 = “AA”; 2. 只在堆上创建对象 String a2 = new String(“A”) + new String(“A”); 3. 在堆上创建对象，在常量池上创建常量 String a3 = new String(“AA”); 4. 在堆上创建对象，在常量池上创建引用123String a4 = new String(&quot;A&quot;) + new String(&quot;A&quot;);//只在堆上创建对象AAa4.intern();//将该对象AA的引用保存到常量池上 5. 在堆上创建对象，在常量池上创建常量，在常量池上创建引用（不可能）1234567String a5 = new String(&quot;A&quot;) + new String(&quot;A&quot;);//只在堆上创建对象a5.intern();//在常量池上创建引用String a6 = &quot;AA&quot;;//此时不会再在常量池上创建常量AA，而是将a5的引用返回给a6System.out.println(a5 == a6); //true 三. 总结12345678910111213141516171819 String aa = &quot;AA&quot;;//设置常量AA到常量池 String bb = &quot;BB&quot;;//设置常量BB到常量池 String ccdd = &quot;CC&quot;+&quot;DD&quot;;//设置常量CCDD到常量池 String neeff = new String(&quot;EE&quot;)+new String(&quot;FF&quot;);//设置EE和FF到常量池。并且添加EE、FF和EEFF对象到堆 String aabb = aa+bb;//添加AABB对象到堆 String gghh = &quot;GG&quot;+new String(&quot;HH&quot;);//设置GG和HH常量到常量池,设置HH和GGHH对象到堆// aa.intern();//啥事都不做，返回AA常量// ccdd.intern();//啥事都不做，返回CCDD常量// neeff.intern();//添加EEFF对象的引用到常量池，并返回EEFF对象// aabb.intern();//添加AABB对象的引用到常量池，并返回AABB对象// gghh.intern();//添加GGHH对象的引用到常量池，并返回GGHH对象 System.out.println(aa.intern()==aa); //true System.out.println(neeff.intern()==&quot;EEFF&quot;);//true System.out.println(&quot;EEFF&quot;==neeff);//true String nccdd = new String(&quot;CCDD&quot;); System.out.println(ccdd==nccdd);//false System.out.println(ccdd==nccdd.intern());//true System.out.println(aabb.intern()==aabb);//true System.out.println(gghh==gghh.intern());//true]]></content>
+      <categories>
+        <category>String</category>
+      </categories>
+      <tags>
+        <tag>String</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[JVM常用基础参数]]></title>
     <url>%2F2019%2F05%2F20%2FJVM%E5%B8%B8%E7%94%A8%E5%9F%BA%E7%A1%80%E5%8F%82%E6%95%B0%2F</url>
     <content type="text"><![CDATA[JVM的参数类型 标配参数 x参数 xx参数 标配参数 -version， -help， java -showversion XX参数 boolean类型：+开启/ -关闭 公式：-xx:+/-某个属性 KV设值类型：-xx:属性key=属性值value case：-xx:MetaspaceSize=128m 常用基础参数 -Xms：初始内存大小，默认为物理内存的1/64，等价于-xx:InitialHeapSize -Xmx：最大分配内存，默认为物理内存的1/4，等价于-xx:MaxHeapSize -Xss：设置单个线程栈的大小，默认为 512K~1024K，等价于-xx:ThreadStackSize -Xmn：设置年轻代的大小，默认为堆空间的1/3，老年代为2/3 -xx:MetaspaceSize：设置元空间的大小，元空间的本质和永久代类似，不过元空间不在虚拟机中，而是使用的本地内存 -xx:+UseSerialGC：使用串行垃圾回收器 -xx:+UseParallelGC：使用并行垃圾回收器 -xx:+PrintGCDetails：输出GC详细的日志收集信息，包括GC 和FullGC -xx:+SurvivorRatio：设置年轻代中Eden区和S0,S1的比例，默认-xx:+SurvivorRatio=8，Eden:S0:S1=8:1:1 -xx:NewRatio：设置年轻代和老年代在堆中的占比。默认-xx:NewRatio=2，年轻代占1，老年代占2，年轻代占堆的1/3 -xx:MaxTenuringThreshold：设置垃圾的最大年龄，若为0，则年轻代对象不经过Survivor区，直接进入老年代，默认为15 如何在IDE中查看 如何查看当前运行程序的配置 12345jps -ljinfo -flag 参数名 线程号jinfo -flags 线程号 -- 查看所有参数Non-default 后的是根据机器配置自动调整后出的参数Command line 后的是自己配置的参数 查看初始默认值java -xx:+PrintFlagsInitial -version 查看修改更新java -xx:+PrintFlagsFinal -version结果： = 没改过； := 修改过或JVM根据硬件不同自动调整过 在运行时修改变更值 12java -xx:+PrintFlagsFinal -xx:MetaspaceSize=128m 类名java -xx:+PrintCommandLineFlags -version 可以用来查看垃圾回收器]]></content>
